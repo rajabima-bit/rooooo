@@ -69,6 +69,8 @@ function startPhotoAnimation(){
     if(step<200){
       requestAnimationFrame(animate);
     } else {
+      // Hapus canvas foto setelah animasi selesai
+      canvas.style.display='none';
       showRinduText();
     }
   }
@@ -126,8 +128,12 @@ function showBonekaChoice(){
 
 // --- KEJUTAN AKHIR ---
 function showFinalText(){
-  pages[1].classList.remove('active');
-  pages[3].classList.add('active');
+  // sembunyikan semua elemen di page2
+  document.getElementById('rinduText').style.display='none';
+  document.getElementById('bonekaCanvas').style.display='none';
+  document.getElementById('choiceContainer').style.display='none';
+  
+  pages[2].classList.add('active'); // tampilkan page3
   const finalText = document.getElementById('finalText');
   const text = "Baik-baik di sanaa yaaa 💛";
   finalText.textContent="";
