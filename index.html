@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!-- Musik Latar -->
 <audio id="bgMusic" loop>
   <source src="musik.mp3" type="audio/mpeg">
 </audio>
@@ -23,18 +22,15 @@
   </div>
 </section>
 
-<!-- Halaman 2: Foto normal → putar → pecah -->
+<!-- Halaman 2: Foto normal → putar → pecah → teks → boneka pilihan -->
 <section id="page2" class="page">
   <div id="photoContainer">
-    <img src="foto1.jpg" alt="Foto 1" class="photo">
-    <img src="foto2.jpg" alt="Foto 2" class="photo">
-    <img src="foto3.jpg" alt="Foto 3" class="photo">
+    <img src="foto1.jpg" class="photo">
+    <img src="foto2.jpg" class="photo">
+    <img src="foto3.jpg" class="photo">
   </div>
   <canvas id="canvas"></canvas>
-</section>
-
-<!-- Halaman 3: Teks Rindu + Boneka Pilihan -->
-<section id="page3" class="page">
+  <h1 id="rinduText"></h1>
   <canvas id="bonekaCanvas"></canvas>
   <div id="choiceContainer">
     <button id="yesBtn">Ya</button>
@@ -42,8 +38,8 @@
   </div>
 </section>
 
-<!-- Halaman 4: Kejutan Akhir -->
-<section id="page4" class="page">
+<!-- Halaman 3: Kejutan Akhir -->
+<section id="page3" class="page">
   <h1 id="finalText"></h1>
 </section>
 
