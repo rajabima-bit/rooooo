@@ -1,9 +1,5 @@
 // Halaman Navigation
 const pages = document.querySelectorAll('.page');
-document.getElementById('startBtn').addEventListener('click', ()=>{
-  pages[0].classList.remove('active');
-  pages[1].classList.add('active');
-});
 document.querySelectorAll('.nextBtn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     let current = document.querySelector('.page.active');
@@ -13,88 +9,76 @@ document.querySelectorAll('.nextBtn').forEach(btn=>{
   });
 });
 
-// Fullscreen Gallery
-document.querySelectorAll('.gallery-item').forEach(img=>{
-  img.addEventListener('click', ()=>{
-    const fs = document.createElement('div');
-    fs.classList.add('fullscreen');
-    const newImg = document.createElement('img');
-    newImg.src = img.src;
-    fs.appendChild(newImg);
-    document.body.appendChild(fs);
-    fs.addEventListener('click', ()=> fs.remove());
-  });
-});
-
-// Drag & Drop Game
-const draggables = document.querySelectorAll('.draggable');
-const dropZone = document.getElementById('dropZone');
-draggables.forEach(drag=>{
-  drag.addEventListener('dragstart', e=> e.dataTransfer.setData('text', drag.id));
-});
-dropZone.addEventListener('dragover', e=> e.preventDefault());
-dropZone.addEventListener('drop', e=>{
-  e.preventDefault();
-  const id = e.dataTransfer.getData('text');
-  const element = document.getElementById(id);
-  dropZone.appendChild(element);
-  checkOrder();
-});
-function checkOrder(){
-  const correctOrder = ['drag2','drag1','drag3'];
-  const children = Array.from(dropZone.children).map(c=>c.id);
-  if(JSON.stringify(children) === JSON.stringify(correctOrder)){
-    document.getElementById('gameFeedback').textContent = "🎉 Betul! Urutan kenangan sudah pas!";
-  } else {
-    document.getElementById('gameFeedback').textContent = "";
-  }
-}
-
-// Pesan Personal
-document.getElementById('sendBtn').addEventListener('click', ()=>{
-  const msg = document.getElementById('personalMsg').value;
-  if(msg) document.getElementById('msgDisplay').textContent = "Pesan terkirim: " + msg;
-});
-
 // Musik Latar
 const music = document.getElementById('bgMusic');
 const musicBtn = document.getElementById('musicBtn');
 musicBtn.addEventListener('click', ()=>{
-  if(music.paused){ music.play(); musicBtn.textContent = '🎵 Pause Music'; }
-  else { music.pause(); musicBtn.textContent = '🎵 Play Music'; }
+  if(music.paused){ music.play(); musicBtn.textContent='🎵 Pause Music'; }
+  else { music.pause(); musicBtn.textContent='🎵 Play Music'; }
 });
 
-// Animasi Confetti
-const canvas = document.getElementById('confetti');
+// Canvas Boneka + Bintang
+const canvas = document.getElementById('bonekaCanvas');
 const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-let confetti = [];
-for(let i=0;i<150;i++){
-  confetti.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*6+2, d:Math.random()*150, color:`hsl(${Math.random()*360},100%,50%)`, tilt:Math.random()*10-10});
+canvas.width = 400; canvas.height = 400;
+
+const img1 = new Image(); img1.src='foto1.jpg';
+const img2 = new Image(); img2.src='foto2.jpg';
+const img3 = new Image(); img3.src='foto3.jpg';
+
+// Stars
+let stars=[];
+for(let i=0;i<50;i++){
+  stars.push({x:Math.random()*400, y:Math.random()*400, r:Math.random()*2+1, dx:(Math.random()-0.5)*2, dy:(Math.random()-0.5)*2});
 }
-function drawConfetti(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  confetti.forEach(p=>{
+
+function drawBoneka(){
+  ctx.clearRect(0,0,400,400);
+  const centerX=200, centerY=200, radius=50;
+
+  // Foto Bundar
+  ctx.save(); ctx.beginPath();
+  ctx.arc(centerX,centerY-60,radius,0,Math.PI*2); ctx.clip();
+  ctx.drawImage(img1, centerX-radius, centerY-60-radius, radius*2, radius*2);
+  ctx.restore();
+
+  ctx.save(); ctx.beginPath();
+  ctx.arc(centerX-60,centerY+50,radius,0,Math.PI*2); ctx.clip();
+  ctx.drawImage(img2, centerX-60-radius, centerY+50-radius, radius*2, radius*2);
+  ctx.restore();
+
+  ctx.save(); ctx.beginPath();
+  ctx.arc(centerX+60,centerY+50,radius,0,Math.PI*2); ctx.clip();
+  ctx.drawImage(img3, centerX+60-radius, centerY+50-radius, radius*2, radius*2);
+  ctx.restore();
+
+  // Stars
+  stars.forEach(s=>{
     ctx.beginPath();
-    ctx.moveTo(p.x+ p.tilt, p.y);
-    ctx.lineTo(p.x+ p.tilt + p.r/2, p.y+ p.r);
-    ctx.lineTo(p.x+ p.tilt - p.r/2, p.y+ p.r);
-    ctx.fillStyle = p.color;
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle='yellow';
     ctx.fill();
+    s.x+=s.dx; s.y+=s.dy;
+    if(s.x<0||s.x>400) s.dx*=-1;
+    if(s.y<0||s.y>400) s.dy*=-1;
   });
-  updateConfetti();
-  requestAnimationFrame(drawConfetti);
+
+  requestAnimationFrame(drawBoneka);
 }
-function updateConfetti(){
-  confetti.forEach(p=>{
-    p.y += Math.cos(p.d) + 1 + p.r/2;
-    p.x += Math.sin(p.d);
-    if(p.y > canvas.height){ p.y = -10; p.x = Math.random()*canvas.width; }
-  });
-}
-drawConfetti();
-window.addEventListener('resize', ()=>{
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+img3.onload=()=>drawBoneka();
+
+// Transformasi Boneka ke Teks Rindu
+document.getElementById('toTextBtn').addEventListener('click', ()=>{
+  pages[2].classList.remove('active');
+  pages[3].classList.add('active');
+  const textContainer = document.getElementById('rinduText');
+  const text = "Kau rindu aku gaa?";
+  textContainer.textContent="";
+  let i=0;
+  const interval = setInterval(()=>{
+    if(i<text.length){
+      textContainer.textContent += text[i];
+      i++;
+    } else clearInterval(interval);
+  },200);
 });
