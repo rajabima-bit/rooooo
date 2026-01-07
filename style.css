@@ -2,18 +2,19 @@
 body { font-family: system-ui, sans-serif; background: linear-gradient(135deg,#ffd6e8,#fff); overflow:hidden; display:flex; justify-content:center; align-items:center; height:100vh; }
 .page { display:none; flex-direction:column; justify-content:center; align-items:center; text-align:center; min-height:100vh; }
 .page.active { display:flex; }
-button { padding:10px 20px; border:none; border-radius:10px; background:#ff79c6; color:#fff; font-size:16px; cursor:pointer; transition:0.3s; }
+button { padding:10px 20px; border:none; border-radius:10px; background:#ff79c6; color:#fff; font-size:16px; cursor:pointer; transition:0.3s; position:relative; }
 button:hover { background:#ff49a3; }
 #musicBtn { position:fixed; top:10px; right:10px; z-index:1000; }
 
-/* Foto normal awal */
+/* Foto awal */
 #photoContainer { display:flex; justify-content:center; gap:15px; margin-top:20px; }
-.photo { width:120px; height:120px; object-fit:cover; border-radius:15px; 
+.photo { width:100px; height:100px; object-fit:cover; border-radius:15px; 
   background: radial-gradient(circle, #ffb6c1 10%, transparent 10%), radial-gradient(circle, #ffb6c1 10%, transparent 10%);
   background-position:0 0,10px 10px; background-size:20px 20%; transition: transform 1s; }
 
-/* Canvas untuk animasi putar & pecah */
-#canvas { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:400px; height:400px; display:none; }
+/* Canvas untuk animasi foto & boneka */
+#canvas, #bonekaCanvas { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:400px; height:400px; display:none; }
 
-/* Teks rindu */
-#rinduText { font-size:2em; color:#ff49a3; text-align:center; letter-spacing:3px; }
+/* Pilihan Ya/Tidak */
+#choiceContainer { margin-top:20px; display:flex; gap:20px; }
+#finalText { font-size:2em; color:#ff49a3; text-align:center; letter-spacing:3px; }
