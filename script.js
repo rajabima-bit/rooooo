@@ -12,23 +12,23 @@ startBtn.addEventListener('click', ()=>{
   pages[0].classList.remove('active');
   pages[1].classList.add('active');
   music.play();
-  setTimeout(startPhotoAnimation, 3000); // tunggu 3 detik sebelum foto berputar
+  setTimeout(startPhotoAnimation, 2000);
 });
 
-// FOTO → PUTAR → PECAB → TEKS RINDU
+// --- FOTO BERPUTAR & PECAH ---
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
-canvas.width = 400; canvas.height = 400;
+canvas.width=400; canvas.height=400;
 
 const photoContainer = document.getElementById('photoContainer');
-let angle = 0;
-let step = 0;
+let angle=0;
+let step=0;
 
 const img1 = new Image(); img1.src='foto1.jpg';
 const img2 = new Image(); img2.src='foto2.jpg';
 const img3 = new Image(); img3.src='foto3.jpg';
 
-let stars = [];
+let stars=[];
 for(let i=0;i<50;i++){
   stars.push({x:Math.random()*400, y:Math.random()*400, r:Math.random()*2+1, dx:(Math.random()-0.5)*2, dy:(Math.random()-0.5)*2});
 }
@@ -64,9 +64,9 @@ function startPhotoAnimation(){
       if(s.y<0||s.y>400) s.dy*=-1;
     });
 
-    angle += 0.02;
+    angle+=0.02;
     step++;
-    if(step < 200){
+    if(step<200){
       requestAnimationFrame(animate);
     } else {
       showRinduText();
@@ -75,19 +75,14 @@ function startPhotoAnimation(){
   animate();
 }
 
-// Teks “Kau rindu aku gaa?” → setelah muncul, munculkan boneka + tombol
+// --- TEKS RINDU ---
 function showRinduText(){
-  pages[1].classList.remove('active');
-  pages[2].classList.add('active');
-
-  const rinduTextContainer = document.createElement('h1');
-  rinduTextContainer.id = 'rinduText';
-  pages[2].appendChild(rinduTextContainer);
-
+  const rinduTextContainer = document.getElementById('rinduText');
+  rinduTextContainer.textContent="";
   const text = "Kau rindu aku gaa?";
   let i=0;
   const interval = setInterval(()=>{
-    if(i < text.length){
+    if(i<text.length){
       rinduTextContainer.textContent += text[i];
       i++;
     } else {
@@ -97,11 +92,11 @@ function showRinduText(){
   },200);
 }
 
-// Boneka + tombol
+// --- BONEKA + PILIHAN YA/TIDAK ---
 function showBonekaChoice(){
   const bonekaCanvas = document.getElementById('bonekaCanvas');
   const ctx2 = bonekaCanvas.getContext('2d');
-  bonekaCanvas.style.display = 'block';
+  bonekaCanvas.style.display='block';
 
   // gambar boneka simple
   function drawBoneka(){
@@ -121,7 +116,6 @@ function showBonekaChoice(){
   yesBtn.style.display='inline-block';
   noBtn.style.display='inline-block';
 
-  // Tombol Tidak menghindar
   noBtn.addEventListener('mouseover', ()=>{
     noBtn.style.position='absolute';
     noBtn.style.left = Math.random()*70+'%';
@@ -131,13 +125,14 @@ function showBonekaChoice(){
   yesBtn.addEventListener('click', showFinalText);
 }
 
-// Kejutan akhir
+// --- KEJUTAN AKHIR ---
 function showFinalText(){
+  pages[1].classList.remove('active');
   pages[2].classList.remove('active');
   pages[3].classList.add('active');
   const finalText = document.getElementById('finalText');
   const text = "Baik-baik di sanaa yaaa 💛";
-  finalText.textContent = "";
+  finalText.textContent="";
   let i=0;
   const interval = setInterval(()=>{
     if(i<text.length){
