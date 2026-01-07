@@ -64,7 +64,7 @@ musicBtn.addEventListener('click', ()=>{
   else { music.pause(); musicBtn.textContent = '🎵 Play Music'; }
 });
 
-// Confetti Animation
+// Animasi Confetti
 const canvas = document.getElementById('confetti');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
