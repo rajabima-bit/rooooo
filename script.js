@@ -98,15 +98,14 @@ function showBonekaChoice(){
   const ctx2 = bonekaCanvas.getContext('2d');
   bonekaCanvas.style.display='block';
 
-  // gambar boneka simple
   function drawBoneka(){
     ctx2.clearRect(0,0,400,400);
     ctx2.fillStyle='pink';
     ctx2.beginPath();
-    ctx2.arc(200,200,80,0,Math.PI*2); // kepala
+    ctx2.arc(200,200,80,0,Math.PI*2);
     ctx2.fill();
     ctx2.fillStyle='red';
-    ctx2.fillRect(180,280,40,60); // badan
+    ctx2.fillRect(180,280,40,60);
     requestAnimationFrame(drawBoneka);
   }
   drawBoneka();
@@ -128,7 +127,6 @@ function showBonekaChoice(){
 // --- KEJUTAN AKHIR ---
 function showFinalText(){
   pages[1].classList.remove('active');
-  pages[2].classList.remove('active');
   pages[3].classList.add('active');
   const finalText = document.getElementById('finalText');
   const text = "Baik-baik di sanaa yaaa 💛";
