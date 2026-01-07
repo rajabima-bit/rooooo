@@ -12,7 +12,7 @@ startBtn.addEventListener('click', ()=>{
   pages[0].classList.remove('active');
   pages[1].classList.add('active');
   music.play();
-  setTimeout(startPhotoAnimation, 3000); // tunggu 3 detik sebelum mulai putar/pecah
+  setTimeout(startPhotoAnimation, 3000);
 });
 
 // FOTO → PUTAR → PECAH
@@ -21,11 +21,9 @@ const ctx = canvas.getContext('2d');
 canvas.width=400; canvas.height=400;
 
 const photoContainer = document.getElementById('photoContainer');
-const photos = document.querySelectorAll('.photo');
 let angle=0;
 let step=0;
 
-// Load gambar
 const img1 = new Image(); img1.src='foto1.jpg';
 const img2 = new Image(); img2.src='foto2.jpg';
 const img3 = new Image(); img3.src='foto3.jpg';
@@ -38,6 +36,7 @@ for(let i=0;i<50;i++){
 function startPhotoAnimation(){
   photoContainer.style.display='none';
   canvas.style.display='block';
+
   function animate(){
     ctx.clearRect(0,0,400,400);
 
@@ -70,24 +69,60 @@ function startPhotoAnimation(){
     if(step<200){
       requestAnimationFrame(animate);
     } else {
-      explodeToText();
+      showBonekaChoice();
     }
   }
   animate();
 }
 
-// Pecah → Teks
-function explodeToText(){
+// Boneka + Pilihan Ya/Tidak
+function showBonekaChoice(){
   pages[1].classList.remove('active');
   pages[2].classList.add('active');
-  const container = document.getElementById('rinduText');
-  const text = "Kau rindu aku gaa?";
-  container.textContent="";
+  const bonekaCanvas = document.getElementById('bonekaCanvas');
+  const ctx2 = bonekaCanvas.getContext('2d');
+  bonekaCanvas.style.display='block';
+
+  // gambar boneka simple
+  function drawBoneka(){
+    ctx2.clearRect(0,0,400,400);
+    ctx2.fillStyle='pink';
+    ctx2.beginPath();
+    ctx2.arc(200,200,80,0,Math.PI*2); // kepala
+    ctx2.fill();
+    ctx2.fillStyle='red';
+    ctx2.fillRect(180,280,40,60); // badan
+    requestAnimationFrame(drawBoneka);
+  }
+  drawBoneka();
+
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn = document.getElementById('noBtn');
+  yesBtn.style.display='inline-block';
+  noBtn.style.display='inline-block';
+
+  noBtn.addEventListener('mouseover', ()=>{
+    // pindah posisi random
+    noBtn.style.position='absolute';
+    noBtn.style.left=Math.random()*70+'%';
+    noBtn.style.top=Math.random()*70+'%';
+  });
+
+  yesBtn.addEventListener('click', ()=>showFinalText());
+}
+
+// Kejutan akhir
+function showFinalText(){
+  pages[2].classList.remove('active');
+  pages[3].classList.add('active');
+  const finalText = document.getElementById('finalText');
+  const text = "Baik-baik di sanaa yaaa 💛";
+  finalText.textContent="";
   let i=0;
   const interval = setInterval(()=>{
     if(i<text.length){
-      container.textContent += text[i];
+      finalText.textContent += text[i];
       i++;
     } else clearInterval(interval);
-  },200);
+  },150);
 }
